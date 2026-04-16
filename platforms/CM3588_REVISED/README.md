@@ -111,7 +111,7 @@ This is the error I came across using Ubuntu 25.10 & GCC 15.2.0 after running th
 <img width="742" height="1050" alt="image" src="https://github.com/user-attachments/assets/a69527b4-3edd-45ba-abda-64637eab79ae" />
 
 **Second Error:**
-After including the GCC 12 in the make command, I ran into more GCC errors after the ">>>host-m4 1.4.19 patching libtool" command. 
+I got the same error. After installing and including the GCC 12 in the make command, I ran into more GCC errors after the ">>>host-m4 1.4.19 patching libtool" command. 
 
 In the `work/buildroot` directory
 ```shell
@@ -124,10 +124,14 @@ make BR2_HOSTCC=gcc-12
 ```
 <img width="742" height="1050" alt="image" src="https://github.com/user-attachments/assets/fcb21827-bed1-45f7-80e9-2d5edb524686" />
 The build is still using, "CC="/usr/bin/gcc" GCC="/usr/bin/gcc" as highlighted. Switched from using make BR2_HOSTCC=gcc-12 to just using ECHO like in one of the previous commands, to add GCC 12 to the local.mk file.
+
 .....
+
 this also didnt work
 
-I then realized the smarter and easier thing to do would make GCC 12 as the default on the host PC im building this with.
+I then realized the smarter and easier thing to do would be to make GCC 12 as the default on the host PC im building this with.
+
+
 
 
 
