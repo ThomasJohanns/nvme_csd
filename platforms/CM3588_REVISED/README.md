@@ -27,6 +27,8 @@ Below are the steps to set up an environment that allwos for rapid code changes 
 
 For the sake of simplicity and make the commands below more uniform we assume that the user is working from the `platforms/cm3588/work` directory.
 
+
+
 ## Clone the Linux kernel with CSD
 
 First we will need to clone the Linux kernel with CSD firmware, this directory will be passed to buildroot. This will be our working source directory.
@@ -61,16 +63,62 @@ echo "LINUX_OVERRIDE_SRCDIR = ${CSD_LINUX_PATH}" > local.mk
 git checkout -b nanopc_t6_csd_custom_v1
 ```
 
-## Build
+## Build (Changed)
+- (Using Ubuntu 25.10) before completing the build, I had to change the system GCC version (version 15) because it is too new and too strict to compile the old code in that Buildroot fork, so using GCC 12 which is older and more lenient fixes it.
+- I also had to add the GCC 12 instruction to "local.mk" so Buildroot uses it throughout the entire build.
 
-In the `work/buildroot` directory
+GCC 12:
+```shell
+# To install GCC 12:
+sudo apt install gcc-12 g++-12
+```
 
+Build:
 ```shell
 # Setup the configuration for the board
 make friendlyelec_cm3588_nas_ep_defconfig
+# Tell Buildroot to use GCC 12
+echo "BR2_HOSTCC=gcc-12" >> local.mk
 # Build
 make
 ```
+
+
+ERRORS I cam across when running the build command:
+
+First Error:
+This is the error I came across using Ubuntu 25.10 & GCC 5.2.0 after running these commands on the CM3588 repository,
+- Clone the Linux kernel with CSD
+- Clone buildroot and setup
+- Build (where the error occured)
+<img width="742" height="1050" alt="image" src="https://github.com/user-attachments/assets/a69527b4-3edd-45ba-abda-64637eab79ae" />
+
+Second Error:
+After including the GCC 12 in the make command, I ran into more GCC errors after the ">>>host-m4 1.4.19 patching libtool" command. 
+
+In the `work/buildroot` directory
+```shell
+# Enter buildroot directory
+cd buildroot
+# Setup the configuration for the board
+make friendlyelec_cm3588_nas_ep_defconfig
+# Compiler running on dev machine, Should be gcc-12 or other compatible GCC
+make BR2_HOSTCC=gcc-12
+```
+<img width="742" height="1050" alt="image" src="https://github.com/user-attachments/assets/fcb21827-bed1-45f7-80e9-2d5edb524686" />
+The build is still using, "CC="/usr/bin/gcc" GCC="/usr/bin/gcc" as highlighted. Switched from using make BR2_HOSTCC=gcc-12 to just using ECHO like in one of the previous commands, to add GCC 12 to the local.mk file.
+
+
+
+
+
+
+
+
+
+
+
+
 
 One eternity later...
 
