@@ -83,7 +83,7 @@ To change the /usr/bin/gcc system pointer:
 #  "update-alternatives" Ubuntu/Debian command line tool to manage multiple versions or implementations of a program or command. I used the manual mode for this
 
 # Registers GCC 12 and G++ 12 as an option for the gcc and g++ command's. Since I used --set (manual), priotity is not needed, just typed 12 for convention 
-—Same thing but for g++, which is the C++ compiler.
+# Same thing but for g++, which is the C++ compiler.
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 12
 sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 12
 # switches gcc to point to GCC 12 as well as G++
