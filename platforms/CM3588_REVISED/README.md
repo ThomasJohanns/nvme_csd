@@ -64,36 +64,53 @@ git checkout -b nanopc_t6_csd_custom_v1
 ```
 
 ## Build (Changed)
-- (Using Ubuntu 25.10) before completing the build, I had to change the system GCC version (version 15) because it is too new and too strict to compile the old code in that Buildroot fork, so using GCC 12 which is older and more lenient fixes it.
-- I also had to add the GCC 12 instruction to "local.mk" so Buildroot uses it throughout the entire build.
+- Trying to complete the build using Ubuntu 15, I ran into many GCC errors I had to change the system GCC version (version 15) because it is too new and too strict to compile the old code in that Buildroot fork, so using GCC 12 which is older and more lenient fixes it.
+- Since Buildroot is cross compiling a Linux system for the CM3588 board, it needs to first build host tools. To build said host tools it used whatever C compiler is on my PC which in my process ended up being gcc at the pointer /usr/bin/gcc. 
+**not knowing what GCC was used to oringianlly build this kernel**
 
-GCC 12:
+- /usr/bin/gcc just a pointer
+- change pointer to point at GCC-12
+- update-alternatives controls what that pointer points to.
+
+Now for the actual build using Ubuntu 25.10,
+
+To install GCC 12
 ```shell
-# To install GCC 12:
 sudo apt install gcc-12 g++-12
+```
+To change the /usr/bin/gcc system pointer:
+```shell
+#  "update-alternatives" Ubuntu/Debian command line tool to manage multiple versions or implementations of a program or command. I used the manual mode for this
+
+# Registers GCC 12 and G++ 12 as an option for the gcc and g++ command's. Since I used --set (manual), priotity is not needed, just typed 12 for convention 
+—Same thing but for g++, which is the C++ compiler.
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 12
+sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 12
+# switches gcc to point to GCC 12 as well as G++
+sudo update-alternatives --set gcc /usr/bin/gcc-12
+sudo update-alternatives --set g++ /usr/bin/g++-12
 ```
 
 Build:
 ```shell
 # Setup the configuration for the board
 make friendlyelec_cm3588_nas_ep_defconfig
-# Tell Buildroot to use GCC 12
-echo "BR2_HOSTCC=gcc-12" >> local.mk
 # Build
 make
 ```
 
+Commands and instructions continue below at "One eternity later"
 
-ERRORS I cam across when running the build command:
+**ERRORS and Documentation through this process:**
 
-First Error:
-This is the error I came across using Ubuntu 25.10 & GCC 5.2.0 after running these commands on the CM3588 repository,
+**First Error:**
+This is the error I came across using Ubuntu 25.10 & GCC 15.2.0 after running these commands on the CM3588 repository,
 - Clone the Linux kernel with CSD
 - Clone buildroot and setup
 - Build (where the error occured)
 <img width="742" height="1050" alt="image" src="https://github.com/user-attachments/assets/a69527b4-3edd-45ba-abda-64637eab79ae" />
 
-Second Error:
+**Second Error:**
 After including the GCC 12 in the make command, I ran into more GCC errors after the ">>>host-m4 1.4.19 patching libtool" command. 
 
 In the `work/buildroot` directory
@@ -107,15 +124,10 @@ make BR2_HOSTCC=gcc-12
 ```
 <img width="742" height="1050" alt="image" src="https://github.com/user-attachments/assets/fcb21827-bed1-45f7-80e9-2d5edb524686" />
 The build is still using, "CC="/usr/bin/gcc" GCC="/usr/bin/gcc" as highlighted. Switched from using make BR2_HOSTCC=gcc-12 to just using ECHO like in one of the previous commands, to add GCC 12 to the local.mk file.
+.....
+this also didnt work
 
-
-
-
-
-
-
-
-
+I then realized the smarter and easier thing to do would make GCC 12 as the default on the host PC im building this with.
 
 
 
