@@ -65,8 +65,8 @@ git checkout -b nanopc_t6_csd_custom_v1
 
 ## Build (Changed)
 - Trying to complete the build using Ubuntu 15, I ran into many GCC errors I had to change the system GCC version (version 15) because it is too new and too strict to compile the old code in that Buildroot fork, so using GCC 12 which is older and more lenient fixes it.
-- Since Buildroot is cross compiling a Linux system for the CM3588 board, it needs to first build host tools. To build said host tools it used whatever C compiler is on my PC which in my process ended up being gcc at the pointer /usr/bin/gcc. 
-**not knowing what GCC was used to oringianlly build this kernel**
+- Since Buildroot is cross compiling a Linux system for the CM3588 board, it needs to first build host tools. To build said host tools, it used whatever C compiler is on my PC which in my process ended up being gcc at the pointer /usr/bin/gcc. 
+(**not knowing what GCC was used to oringianlly build this kernel I picked GCC 12**)
 
 - /usr/bin/gcc just a pointer
 - change pointer to point at GCC-12
