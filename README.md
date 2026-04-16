@@ -1,4 +1,4 @@
-# (ADDED CM3588_REVISED TO PLATFORMS AS WELL AS)
+# (ADDED CM3588_REVISED TO e)
 
 
 # NVMe Computational Storage Devices based on Open-Source Software and readily available Hardware
