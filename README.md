@@ -1,6 +1,10 @@
+# (ADDED CM3588_REVISED TO PLATFORMS AS WELL AS)
+
+
 # NVMe Computational Storage Devices based on Open-Source Software and readily available Hardware
 
 This project aims to allow anyone to create their own Non Volatile Memory Express (NVMe) Computational Storage Devices with readily available hardware platforms and open-source software.
+
 
 View our [paper](https://dl.acm.org/doi/10.1145/3697352) (open-access) for background, technical details, benchmarks, and applications.
 
