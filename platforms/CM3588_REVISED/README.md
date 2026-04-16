@@ -215,15 +215,18 @@ Install required packages with (for Ubuntu/Debian hosts)
 sudo apt install binfmt-support qemu-user-static debootstrap
 ```
 
-## Setup
-
+## Setup (CHANGED)
 From the `platforms/cm3588/work`directory :
-
 ```shell
 # in the work directory create a RootFS directory (can be on SD directly)
 mkdir rootfs
-# Populate RootFS with debootstrap tool (here Ubuntu Mantic is chosen, you chose other versions or Debian)
-sudo debootstrap --arch=arm64 mantic rootfs/ http://ports.ubuntu.com/ubuntu-ports/
+
+
+# Populate RootFS with debootstrap tool (CHANGED)
+# mantic -> noble, mantic is end of life and package and repositories have been taken down
+sudo debootstrap --arch=arm64 noble rootfs/ http://ports.ubuntu.com/ubuntu-ports/
+
+
 # Go in the Buildroot Linux build directory
 cd buildroot/output/build/linux-custom
 # Install the drivers (modules) in the RootFS
@@ -240,8 +243,7 @@ sudo mkdir rootfs/lib/firmware
 sudo cp -r linux-firmware/rtl_nic/ rootfs/lib/firmware/
 # Optionnally delete the cloned repo
 rm -rf linux-firmware
-# Copy QEMU ARM64 emulator (static binary) into the rootfs (install if you don't have it)
-# The binary can later be removed, or simply leave it if you want to chroot from host again later
+# Copy QEMU ARM64 emulator (static binary) into the rootfs
 sudo cp $(which qemu-aarch64-static) rootfs/usr/bin/
 # Chroot into the rootfs and run the QEMU emulator to run bash
 sudo chroot rootfs qemu-aarch64-static /bin/bash
