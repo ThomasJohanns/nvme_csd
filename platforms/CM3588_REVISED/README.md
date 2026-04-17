@@ -193,6 +193,9 @@ The default credentials are : username : `buildroot` password `buildroot`
 ## PCIe cables
 This is my set up for the pcie connections:
 
+<img width="3024" height="4032" alt="IMG_8429 copy" src="https://github.com/user-attachments/assets/0a26a31e-700b-43dc-b3a5-7b1a70df730d" />
+
+
 
 
 For adapters and cables checkout https://blog.reds.ch/?p=1759
@@ -209,7 +212,9 @@ For the host PC it is possible to use an M.2 PCIe switch, this allows to connect
 
 The minimal RootFS built with buildroot above may not be the most friendly environment for rapid testing and prototyping, especially for user space programs, therefore we show how to install Ubuntu on the CM3588.
 
-## Prebuilt image
+## (CHANGED/ADDED) 
+
+
 
 TODO
 
