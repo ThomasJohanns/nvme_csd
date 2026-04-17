@@ -216,11 +216,16 @@ sudo apt install binfmt-support qemu-user-static debootstrap
 ```
 
 ## Setup (CHANGED)
+
+# make sure you have this binary installed which lets the PC emulate an ARM64 processor
+```shell
+sudo apt install qemu-user
+```
+
 From the `platforms/cm3588/work`directory :
 ```shell
 # in the work directory create a RootFS directory (can be on SD directly)
 mkdir rootfs
-
 
 # Populate RootFS with debootstrap tool (CHANGED)
 # mantic -> noble, mantic is end of life and package and repositories have been taken down
