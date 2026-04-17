@@ -221,21 +221,15 @@ sudo apt install binfmt-support qemu-user-static debootstrap
 
 ## Setup (CHANGED)
 
-# make sure you have this binary installed which lets the PC emulate an ARM64 processor
-```shell
-sudo apt install qemu-user
-```
-
-From the `platforms/cm3588/work`directory :
-```shell
 # in the work directory create a RootFS directory (can be on SD directly)
 mkdir rootfs
-
 # Populate RootFS with debootstrap tool (CHANGED)
-# mantic -> noble, mantic is end of life and package and repositories have been taken down
+# mantic -> noble, mantic is end of life and its repositories have been taken down
 sudo debootstrap --arch=arm64 noble rootfs/ http://ports.ubuntu.com/ubuntu-ports/
-
-
+# installs the QEMU ARM64 emulator on your host PC
+sudo apt install qemu-user
+# Copies emulator into the rootfs so when you chroot into it the system can find and use it to run ARM64 programs
+sudo cp /usr/bin/qemu-aarch64 rootfs/usr/bin/qemu-aarch64-static
 # Go in the Buildroot Linux build directory
 cd buildroot/output/build/linux-custom
 # Install the drivers (modules) in the RootFS
@@ -250,13 +244,10 @@ git clone https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmwar
 sudo mkdir rootfs/lib/firmware
 # Copy firmware
 sudo cp -r linux-firmware/rtl_nic/ rootfs/lib/firmware/
-# Optionnally delete the cloned repo
+# Optionally delete the cloned repo
 rm -rf linux-firmware
-# Copy QEMU ARM64 emulator (static binary) into the rootfs
-sudo cp $(which qemu-aarch64-static) rootfs/usr/bin/
 # Chroot into the rootfs and run the QEMU emulator to run bash
 sudo chroot rootfs qemu-aarch64-static /bin/bash
-```
 
 ### Configuring the Ubuntu RootFS
 
