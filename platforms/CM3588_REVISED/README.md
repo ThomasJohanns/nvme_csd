@@ -103,6 +103,8 @@ Commands and instructions continue below at "One eternity later"
 
 **ERRORS and Documentation through this process:**
 
+
+**host tool compilation errors**
 **First Error:**
 This is the error I came across using Ubuntu 25.10 & GCC 15.2.0 after running these commands on the CM3588 repository,
 - Clone the Linux kernel with CSD
@@ -130,6 +132,8 @@ The build is still using, "CC="/usr/bin/gcc" GCC="/usr/bin/gcc" as highlighted. 
 this also didnt work
 
 I then realized the smarter and easier thing to do would be to make GCC 12 as the default on the host PC im building this with.
+
+**END OF HOST TOOL COMPILATION ERRORS**
 
 
 
