@@ -144,6 +144,9 @@ One eternity later...
 
 The output file for the SD card will be located here `work/buildroot/output/images/sdcard.img`
 
+## Prebuilt Image
+The SD card image i built is available in the [releases](https://github.com/ThomasJohanns/nvme_csd/releases/tag/v1.0.0) section.
+
 Modifications can be made, both in the `work/linux` folder to make changes to the kernel and drivers and in the `work/buildroot` directory for changes to the RootFS and other parts.
 
 To rebuild call `make` or `make linux-rebuild all` from the `work/buildroot` directory.
