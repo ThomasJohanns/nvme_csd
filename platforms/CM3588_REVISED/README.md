@@ -213,10 +213,61 @@ For the host PC it is possible to use an M.2 PCIe switch, this allows to connect
 The minimal RootFS built with buildroot above may not be the most friendly environment for rapid testing and prototyping, especially for user space programs, therefore we show how to install Ubuntu on the CM3588.
 
 ## (CHANGED/ADDED) 
+##ERRORS WITH NVME DRIVER
+After installing the micro sd card into the cm board, I tried to get a boot log in to continue with the next steps in the process (Installing a root fs for Ubunut on the CM3588 board). I connected to the board via UART to usb adapter using Putty and noticed I was never getting a log in prompt and it was stuck in whats called a RCU stall loop.CM3588 boots up, The NVMe PCIe endpoint driver loads automatically The driver tries to establish a PCIe link with the host No PCIe link is available yet (host PC not on, or PCIe connection not working), The system never reaches a login prompt. The instructions say to install the pcie nvme driver once youre able to log into the CM3588 board but since I was stuck in a loop, I decided to take the Micro sd card out and manually add the startup script to the SD card so the NVMe endpoint starts automatically on boot without needing a login prompt.
 
+## Adding the driver manually
+```shell
+# Check for Micro sd
+lsblk
+# Mount my micro sd
+sudo mount /dev/sdd2 /mnt
+# Check for init scripts in the rootfs
+ls /mnt/etc/init.d/
+```
+I notices that The S## scripts in /etc/init.d/ are buildroots way of running things automatically at boot. The number after s controls the order. I also noticed by entering the bin directory that script, as highlighted in the picture is already there.
+<img width="1063" height="940" alt="image" src="https://github.com/user-attachments/assets/f64f27bc-bd97-442a-8b19-ec10b037ec6f" />
+The script is already installed in the right place on the SD card from when buildroot built the image but nothingis telling it to run automatically when the board boots. And since I was unable to get a log in prompt, I looked up how to create a startup script in /etc/init.d/.
 
+I found a good source for this particular situation to Create and control start up scripts in BusyBox:
+<img width="747" height="719" alt="image" src="https://github.com/user-attachments/assets/5eef82e8-a18e-4c97-bef0-40f8ffdb3dc7" />
+https://unix.stackexchange.com/questions/59018/create-and-control-start-up-scripts-in-busybox
+This is the master init script that runs all the S## scripts
+<img width="659" height="441" alt="image" src="https://github.com/user-attachments/assets/c9372773-2289-411b-b8f1-eaae881179c8" />
+Good example^
 
-TODO
+This code opens a text editor called nano to create a new file called S99nvme-epf inside the /etc/init.d/ folder on the SD card (/mnt is where the SD card is mounted). This is the file that will tell the CM3588 to run nvme-epf-script automatically when it boots.
+
+```shell
+#!/bin/sh
+
+case "$1" in
+  start)
+    echo "Starting NVMe endpoint..."
+    nvme-epf-script -q 4 -l /dev/ram0 --threads 2 start &
+    ;;
+  stop)
+    echo "Stopping NVMe endpoint..."
+    nvme-epf-script stop
+    ;;
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+esac
+
+exit $?
+```
+Creating S99nvme-epf makes sure that the NVMe endpoint script runs last, after all other scripts are initialized.
+As per the instructinos, I use two threads because the RK3588 only has 2 dedicated PCIe DMA engines.
+
+```shell
+#To make the file executable:
+sudo chmod +x /mnt/etc/init.d/S99nvme-epf
+#to verify looks all set
+cat /mnt/etc/init.d/S99nvme-epf
+```
+<img width="923" height="414" alt="image" src="https://github.com/user-attachments/assets/bfd47e73-6ff2-47e8-bcd4-cc9804634720" />
+
 
 ## Prerequisites
 
