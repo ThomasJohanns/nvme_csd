@@ -1,4 +1,5 @@
-# (ADDED CM3588_REVISED TO e)
+# ADDED CM3588 REVISED IN THE PLATFORMS FOLDER WITH ADDED INSTRUCTIONS AND DOCUMENTATION FROM MY PROCESS.
+#THE ORIGINAL CM388 platform is still there for reference
 
 
 # NVMe Computational Storage Devices based on Open-Source Software and readily available Hardware
