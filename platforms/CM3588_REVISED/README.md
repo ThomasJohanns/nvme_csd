@@ -191,6 +191,9 @@ df -h
 The default credentials are : username : `buildroot` password `buildroot`
 
 ## PCIe cables
+This is my set up for the pcie connections:
+
+
 
 For adapters and cables checkout https://blog.reds.ch/?p=1759
 
