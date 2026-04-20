@@ -14,7 +14,6 @@ The FriendlyElec CM3588 + NAS Kit combines a RK3588 based compute module with a 
 - Four PCIe M.2 M-Key connectors with PCIe 3.0 x1
 - eMMC Flash: 0GB/64GB eMMC, at HS400 mode
 - ...
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/bf52738d-df8f-4b10-a0c9-882ab0c5461c" />
 
 # Running instructions
 
